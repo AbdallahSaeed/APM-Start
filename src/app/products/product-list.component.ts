@@ -1,15 +1,49 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { IProduct } from './Product';
 
 @Component({
   selector: 'pm-products',
   templateUrl: './product-list.component.html',
+  styleUrls: ['./product-list.component.css'],
 })
-export class ProductListComponent {
+export class ProductListComponent implements OnInit {
+  constructor() {
+    this.filteredProducts = this.products;
+    // this.listFilter = 'cart';
+  }
+
+  //--- lifecycle hooks
+  ngOnInit(): void {
+    console.log('hi Iam in ngOnInit ');
+  }
+
   pageTitle: string = 'Product List !';
   imageWidth: number = 50;
   imageMargin: number = 2;
   showImage: boolean = false;
-  products: any[] = [
+  filteredProducts: IProduct[] = [];
+
+  private _listFilter: string = '';
+  get listFilter(): string {
+    return this._listFilter;
+  }
+  set listFilter(value: string) {
+    this._listFilter = value;
+    this.filteredProducts = this.listFilter
+      ? this.PreformFilter(this.listFilter)
+      : this.products;
+  }
+
+  private PreformFilter(filterby: string): IProduct[] {
+    filterby = filterby.toLowerCase();
+
+    return this.products.filter(
+      (product: IProduct) =>
+        product.productName.toLowerCase().indexOf(filterby) !== -1
+    );
+  }
+
+  products: IProduct[] = [
     {
       productId: 1,
       productName: 'Leaf Rake',
@@ -64,5 +98,9 @@ export class ProductListComponent {
 
   toggleImage(): void {
     this.showImage = !this.showImage;
+  }
+
+  onRatingClicked(message: string): void {
+    this.pageTitle = 'Ploduct List: ' + message;
   }
 }
