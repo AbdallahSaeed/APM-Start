@@ -3,7 +3,7 @@ import { IProduct } from './Product';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { from, Observable, throwError } from 'rxjs';
 
-import {catchError , tap} from 'rxjs/Operators'
+import {catchError , map, tap} from 'rxjs/Operators'
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +17,14 @@ export class ProductService {
     return this.http.get<IProduct[]>(this.protectedURL).pipe(
         tap(data=> console.log(JSON.stringify(data))),
         catchError(this.handleError)
+    );
+  }
+
+
+  getProductById(Id:number) : Observable<IProduct  | undefined>{
+    return this.getProducts()
+    .pipe(
+      map((products: IProduct[]) => products.find(p => p.productId === Id))
     );
   }
 

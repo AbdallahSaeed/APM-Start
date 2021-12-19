@@ -8,8 +8,7 @@ import { ProductService } from './Product.service';
   styleUrls: ['./product-list.component.css'],
 })
 export class ProductListComponent implements OnInit {
-  //---
-  private _productService: ProductService | undefined;
+
   constructor(private productService: ProductService) {
      
   }

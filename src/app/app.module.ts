@@ -10,8 +10,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { ProductDetailComponent } from './products/product-detail.component';
 import { WelcomeComponent } from './home/welcome.component';
 import { RouterModule } from '@angular/router';
- 
-
+import { ProductNotFoundComponent } from './products/product-not-found.component';
 @NgModule({
   declarations: [
     AppComponent ,
@@ -19,7 +18,9 @@ import { RouterModule } from '@angular/router';
     ConvertToSpacesPipe,
     StarComponent,
     ProductDetailComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    ProductNotFoundComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -28,13 +29,14 @@ import { RouterModule } from '@angular/router';
     RouterModule.forRoot([
       { path: "products" , component: ProductListComponent },
       { path: "products/:id" , component: ProductDetailComponent },
+      { path: "ProductNotFound" , component: ProductNotFoundComponent },
       { path: "welcome" , component: WelcomeComponent },
       { path: "" , redirectTo:"welcome", pathMatch: "full" },
       //--- ** == 404
      // { path: "**" , redirectTo:"welcome", pathMatch: "full" },
 
-    ]) 
-    
+    ])
+
   ],
   bootstrap: [AppComponent ]
 })
