@@ -25,9 +25,11 @@ export class ProductDetailComponent implements OnInit {
       this.productService.getProductById(+id).subscribe({
         next: (product) =>  product ? this.product = product : this.notFound() ,
       });
-    } else {
-     this.onBack();
-    }
+    } 
+    
+    // else {
+    //  this.onBack();
+    // }
   }
 
   onBack(): void {

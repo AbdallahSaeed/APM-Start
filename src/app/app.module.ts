@@ -11,6 +11,7 @@ import { ProductDetailComponent } from './products/product-detail.component';
 import { WelcomeComponent } from './home/welcome.component';
 import { RouterModule } from '@angular/router';
 import { ProductNotFoundComponent } from './products/product-not-found.component';
+import { ProductDetailGuard } from './products/product-detail.guard';
 @NgModule({
   declarations: [
     AppComponent ,
@@ -28,7 +29,7 @@ import { ProductNotFoundComponent } from './products/product-not-found.component
     HttpClientModule,
     RouterModule.forRoot([
       { path: "products" , component: ProductListComponent },
-      { path: "products/:id" , component: ProductDetailComponent },
+      { path: "products/:id" , component: ProductDetailComponent , canActivate: [ProductDetailGuard] },
       { path: "ProductNotFound" , component: ProductNotFoundComponent },
       { path: "welcome" , component: WelcomeComponent },
       { path: "" , redirectTo:"welcome", pathMatch: "full" },
