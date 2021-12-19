@@ -3,25 +3,30 @@ import { IProduct } from './Product';
 import { ProductService } from './Product.service';
 
 @Component({
-  selector: 'pm-products',
+  // selector: 'pm-products',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css'],
 })
 export class ProductListComponent implements OnInit {
   //---
   private _productService: ProductService | undefined;
-
-  constructor(productService: ProductService) {
-    //--- inject productService
-    this._productService = productService;
+  constructor(private productService: ProductService) {
+     
   }
 
   //--- lifecycle hooks
   ngOnInit(): void {
-    this.products =  this._productService ?  this._productService.getProducts() : [];
-    this.filteredProducts = this.products;
+    this.productService.getProducts().subscribe({
+      next : products => {
+        this.products = products;
+        this.filteredProducts = this.products;
+      },
+      error : eer=> this.errorMessage = eer
+    });
+
   }
 
+  private errorMessage : string = '';
   pageTitle: string = 'Product List !';
   imageWidth: number = 50;
   imageMargin: number = 2;
