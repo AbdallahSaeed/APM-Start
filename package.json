@@ -23,7 +23,14 @@
     "rxjs": "~6.6.0",
     "save": "^2.4.0",
     "tslib": "^2.1.0",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.4",
+    "css-what": ">=5.0.1",
+    "json-schema": ">=0.4.0",
+    "ansi-regex": ">=5.0.1",
+    "nth-check": ">=2.0.1",
+    "tar": ">=6.1.9",
+    "url-parse": ">=1.5.2"
+
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.0.0",
@@ -37,6 +44,12 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
-    "typescript": "~4.2.3"
+    "typescript": "~4.2.3",
+    "css-what": ">=5.0.1",
+    "json-schema": ">=0.4.0",
+    "ansi-regex": ">=5.0.1",
+    "nth-check": ">=2.0.1",
+    "tar": ">=6.1.9",
+    "url-parse": ">=1.5.2"
   }
 }
