@@ -5,6 +5,7 @@ import { ProductNotFoundComponent } from './product-not-found.component';
 import { RouterModule } from '@angular/router';
 import { ProductDetailGuard } from './product-detail.guard';
 import { SharedModule } from '../shared/shared.module';
+import { AddProductComponent } from './add-product/add-product.component';
  
 
 @NgModule({
@@ -12,6 +13,7 @@ import { SharedModule } from '../shared/shared.module';
     ProductListComponent,
     ProductDetailComponent,
     ProductNotFoundComponent,
+    AddProductComponent,
   ],
   imports: [  
     RouterModule.forChild([

@@ -6,10 +6,13 @@ import {HttpClientModule} from '@angular/common/http';
 import { WelcomeComponent } from './home/welcome.component';
 import { RouterModule } from '@angular/router';
 import { ProductModule } from './products/product.module';
+
+import { UserSettingFormModule } from './user-setting-form/user-setting-form.module';
 @NgModule({
   declarations: [
     AppComponent ,
     WelcomeComponent,
+ 
   ],
   imports: [
     BrowserModule,
@@ -22,7 +25,8 @@ import { ProductModule } from './products/product.module';
      // { path: "**" , redirectTo:"welcome", pathMatch: "full" },
 
     ]),
-    ProductModule
+    ProductModule,
+    UserSettingFormModule
   ],
   bootstrap: [AppComponent ]
 })
