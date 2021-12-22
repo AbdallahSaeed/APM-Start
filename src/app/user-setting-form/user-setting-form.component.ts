@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, NgModel } from '@angular/forms';
+import { Observable, of } from 'rxjs';
+import { State } from './State';
   
 import { UserSetting } from './userSeting';
 import { UserSetingService } from './UserSetting.service';
@@ -11,7 +13,9 @@ import { UserSetingService } from './UserSetting.service';
 export class UserSettingFormComponent implements OnInit {
   constructor(private userSetingServices: UserSetingService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.States = this.userSetingServices.getStates();
+  }
 
   originalUserSeting: UserSetting = {
     Name: 'Abdallah Saeed',
@@ -26,6 +30,10 @@ export class UserSettingFormComponent implements OnInit {
     UserInterfaceStyle: 'Dark',
     Notes: 'test note test note',
   };
+
+  States: Observable<State[]> | undefined;
+
+  
 
   UserSeting: UserSetting = { ...this.originalUserSeting };
 

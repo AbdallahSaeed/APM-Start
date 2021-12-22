@@ -80,10 +80,8 @@
                                 [(ngModel)]="UserSeting.State">
                             <option value=""
                                     selected>Choose...</option>
-                            <option value="State1">State 1</option>
-                            <option value="State2">State 2</option>
-                            <option value="State3">State 3</option>
-                            <option value="State4">State 4</option>
+                                    <option *ngFor="let stat of States | async" value="{{stat.id}}" >{{stat.name}}</option>
+                            
 
                         </select>
                     </div>
