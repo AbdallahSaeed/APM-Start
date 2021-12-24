@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Customer } from './customer';
+
 import {
   AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
+  FormArray,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-
+import { debounceTime } from 'rxjs/operators';
 /// custome Validtion
 /*
 function rattingRange(c: AbstractControl): { [key: string]: boolean } | null {
@@ -52,9 +53,8 @@ function emailCompare(c: AbstractControl): { [key: string]: boolean } | null {
   if (emailController?.value === ConfirmEmailController?.value) {
     return null;
   }
-  return { "comper": true };
+  return { comper: true };
 }
-
 
 @Component({
   //selector: 'app-customer',
@@ -65,32 +65,75 @@ export class CustomerComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
   private customer = new Customer();
 
-  customerForm: FormGroup = this.fb.group(this.customer);
+  customerForm!: FormGroup;
 
   //--- Form Controllers
+
+  private buildAddress(): FormGroup {
+    return this.fb.group({
+      addressType: 'home',
+      street1: ['', Validators.required],
+      street2: '',
+      city: '',
+      state: '',
+      zip: '',
+    });
+  }
   private customerControllers = {
     firstName: ['', [Validators.required, Validators.minLength(3)]],
     lastName: ['', [Validators.required, Validators.maxLength(50)]],
     //--- Nested Form Group and Cross field Validtion
-    emailGroup: this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      confirmEmail:['', [Validators.required, Validators.email]],
-    } , {
-      validator: emailCompare
-    } ),
+    emailGroup: this.fb.group(
+      {
+        email: ['', [Validators.required, Validators.email]],
+        confirmEmail: ['', [Validators.required, Validators.email]],
+      },
+      {
+        validator: emailCompare,
+      }
+    ),
     sendCatalog: false,
-    addressType: '',
     notifictions: 'email',
     Phone: '',
     Ratting: [null, rattingRange(1, 5)], // custome Validtion
+    addressesGroup: this.fb.array([this.buildAddress()]),
   };
 
-  
+  get addresses(): FormArray {
+    return <FormArray>this.customerForm.get('addressesGroup');
+  }
+  emailMessage: string = '';
+
+  private validitionMesseges: any = {
+    required: 'Please enter your email address.',
+    email: ' Please enter a valid email address.',
+  };
 
   ngOnInit(): void {
     this.customerForm = this.fb.group(this.customerControllers);
 
-    // this.customerForm = new FormGroup({ ...this.customerControllers });
+    //---- setNotifictions
+    this.customerForm
+      .get('notifictions')
+      ?.valueChanges.subscribe((value) => this.setNotifictions(value));
+
+    //--- view Validition message
+    const emailControl = this.customerForm.get('emailGroup.email');
+    emailControl?.valueChanges
+      .pipe(
+        //---  debounceTime 1
+        debounceTime(1000)
+      )
+      .subscribe((value) => this.setMessage(emailControl));
+  }
+
+  setMessage(c: AbstractControl): void {
+    this.emailMessage = '';
+    if ((c.touched || c.dirty) && c.errors) {
+      this.emailMessage = Object.keys(c.errors)
+        .map((key) => this.validitionMesseges[key])
+        .join('');
+    }
   }
 
   save(): void {
@@ -124,14 +167,11 @@ export class CustomerComponent implements OnInit {
     }
     PhoneControler?.updateValueAndValidity();
   }
-}
 
-export class CustomerControllers {
-  firstName: FormControl = new FormControl();
-  lastName: FormControl = new FormControl();
-  email: FormControl = new FormControl();
-  sendCatalog: FormControl = new FormControl(true);
-  addressType: FormControl = new FormControl();
+
+  addAddress():void{
+    this.addresses.push(this.buildAddress());
+  }
 }
 
 ////----------- Template Driven

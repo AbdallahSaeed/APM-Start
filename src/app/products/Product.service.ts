@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { IProduct } from './Product';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import {  Observable, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
-import {catchError , map, tap} from 'rxjs/Operators'
+import {debounceTime,catchError , map, tap } from 'rxjs/Operators'
 
 @Injectable({
   providedIn: 'root',
