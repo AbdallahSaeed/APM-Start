@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IProduct } from './Product';
-import { ProductService } from './Product.service';
+import { ProductHttpSercice } from './product-http-sercice';
 
 @Component({
   // selector: 'pm-products',
@@ -8,24 +8,20 @@ import { ProductService } from './Product.service';
   styleUrls: ['./product-list.component.css'],
 })
 export class ProductListComponent implements OnInit {
-
-  constructor(private productService: ProductService) {
-     
-  }
+  constructor(private productService: ProductHttpSercice) {}
 
   //--- lifecycle hooks
   ngOnInit(): void {
     this.productService.getProducts().subscribe({
-      next : products => {
+      next: (products) => {
         this.products = products;
         this.filteredProducts = this.products;
       },
-      error : eer=> this.errorMessage = eer
+      error: (eer) => (this.errorMessage = eer),
     });
-
   }
 
-  private errorMessage : string = '';
+  private errorMessage: string = '';
   pageTitle: string = 'Product List !';
   imageWidth: number = 50;
   imageMargin: number = 2;

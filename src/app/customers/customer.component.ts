@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Customer } from './customer';
-
 import {
   AbstractControl,
   FormBuilder,
