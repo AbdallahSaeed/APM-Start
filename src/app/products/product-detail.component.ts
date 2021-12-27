@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IProduct } from './Product';
 import { Router,  ActivatedRoute } from '@angular/router';
-import { ProductService } from './Product.service';
+import { ProductHttpSercice } from './product-http-sercice';
 
 @Component({
   templateUrl: './product-detail.component.html',
@@ -13,7 +13,7 @@ export class ProductDetailComponent implements OnInit {
 
   constructor(
     private activeRoute: ActivatedRoute,
-    private productService: ProductService,
+    private productService: ProductHttpSercice,
     private router : Router
   ) {}
 
@@ -22,7 +22,7 @@ export class ProductDetailComponent implements OnInit {
   ngOnInit(): void {
     let id = this.activeRoute.snapshot.paramMap.get('id');
     if (id) {
-      this.productService.getProductById(+id).subscribe({
+      this.productService.getProduct(+id).subscribe({
         next: (product) =>  product ? this.product = product : this.notFound() ,
       });
     } 

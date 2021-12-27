@@ -18,7 +18,7 @@ export class ProductHttpSercice {
     getProducts(): Observable<IProduct[]> {
       return this.http.get<IProduct[]>(this.productsUrl)
         .pipe(
-          tap(data => console.log(JSON.stringify(data))),
+         // tap(data => console.log(JSON.stringify(data))),
           catchError(this.handleError)
         );
     }
@@ -30,7 +30,7 @@ export class ProductHttpSercice {
       const url = `${this.productsUrl}/${id}`;
       return this.http.get<IProduct>(url)
         .pipe(
-          tap(data => console.log('getProduct: ' + JSON.stringify(data))),
+        //  tap(data => console.log('getProduct: ' + JSON.stringify(data))),
           catchError(this.handleError)
         );
     }
@@ -40,7 +40,7 @@ export class ProductHttpSercice {
       product.productId = 0;
       return this.http.post<IProduct>(this.productsUrl, product, { headers })
         .pipe(
-          tap(data => console.log('createProduct: ' + JSON.stringify(data))),
+         // tap(data => console.log('createProduct: ' + JSON.stringify(data))),
           catchError(this.handleError)
         );
     }
@@ -60,7 +60,7 @@ export class ProductHttpSercice {
       const url = `${this.productsUrl}/${product.productId}`;
       return this.http.put<IProduct>(url, product, { headers })
         .pipe(
-          tap(() => console.log('updateProduct: ' + product.productId)),
+       //   tap(() => console.log('updateProduct: ' + product.productId)),
           // Return the product on an update
           map(() => product),
           catchError(this.handleError)
@@ -68,6 +68,9 @@ export class ProductHttpSercice {
     }
   
     private handleError(err:any): Observable<never> {
+
+      console.log(err)
+
       // in a real world app, we may send the server to some remote logging infrastructure
       // instead of just logging it to the console
       let errorMessage: string;
@@ -79,13 +82,14 @@ export class ProductHttpSercice {
         // The response body may contain clues as to what went wrong,
         errorMessage = `Backend returned code ${err.status}: ${err.body.error}`;
       }
-      console.error(err);
+      console.error(errorMessage);
       return throwError(errorMessage);
     }
   
     private initializeProduct(): IProduct {
       // Return an initialized object
       return {
+        id:0,
         productId: 0,
         productName: '',
         productCode: '',

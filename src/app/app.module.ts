@@ -10,11 +10,14 @@ import { ProductModule } from './products/product.module';
 import { UserSettingFormModule } from './user-setting-form/user-setting-form.module';
 import { CustomersModule } from './customers/customers.module';
 
+
+
 @NgModule({
   declarations: [AppComponent, WelcomeComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
+   
     RouterModule.forRoot([
       { path: 'welcome', component: WelcomeComponent },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },

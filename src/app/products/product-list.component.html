@@ -37,7 +37,12 @@
                         <th>Description</th>
                         <th>Price</th>
                         <th>5 Star Rating</th>
-                        <th> </th>
+                        <th>
+                            <button class="btn btn-outline-secondary btn-sm"
+                                    [routerLink]="['/products', 0, 'edit']">
+                                Add
+                            </button>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -65,7 +70,7 @@
                         </td>
                         <td>
                             <button class="btn btn-outline-primary btn-sm"
-                                    [routerLink]="['/products', product.productId, 'edit']">
+                                    [routerLink]="['/products', product.id, 'edit']">
                                 Edit
                             </button>
                         </td>

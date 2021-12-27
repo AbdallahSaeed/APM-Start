@@ -10,11 +10,12 @@ import { ProductEditComponent } from './product-edit.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 
+
+import { ProductEditGuard } from './product-edit.guard';
 // Imports for loading & configuring the in-memory web api
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { ProductData } from './ProductData';
-import { ProductEditGuard } from './product-edit.guard';
-import { NumberValidators } from "../shared/numbers-validators";
+ 
 
 @NgModule({
   declarations: [
