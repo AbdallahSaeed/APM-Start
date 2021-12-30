@@ -10,23 +10,29 @@ import {
 import { IProduct } from './Product';
 import { ProductHttpSercice } from './product-http-sercice';
 import { NgModel } from '@angular/forms';
+import { CriteriaComponent } from '../shared/criteria/criteria.component';
+import { ProductParameterService } from './product-parameter.service';
+
 @Component({
   // selector: 'pm-products',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css'],
 })
 export class ProductListComponent implements OnInit, AfterViewInit {
-  constructor(private productService: ProductHttpSercice) {}
+  constructor(
+    private productService: ProductHttpSercice,
+    private productParameterService: ProductParameterService
+  ) {}
   ngAfterViewInit(): void {
     ///// Value Change observable
     // this.filterElement.valueChanges?.subscribe(() =>
     //   this.PreformFilter(this.listFilter)
     // );
 
-    this.filterElementref.nativeElement.focus();
-    console.log(this.filterElementref);
     // console.log(this.filterElementsref_1);
     // console.log(this.filterElementsref_2);
+
+    this.parentFilterValue = this.filterElement.listFilter;
   }
 
   //--- lifecycle hooks
@@ -34,16 +40,14 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     this.productService.getProducts().subscribe({
       next: (products) => {
         this.products = products;
-        this.filteredProducts = this.products;
+        this.filterElement.listFilter = this.productParameterService.filterBy;
+        //this.filteredProducts = this.products;
         //// if you want defult value for filters
         // this.listFilter = 'cart';
       },
       error: (eer) => (this.errorMessage = eer),
     });
   }
-
-  @ViewChild('filterElement')
-  filterElementref!: ElementRef;
 
   // @ViewChild(NgModel)
   // filterElement!: NgModel;
@@ -55,36 +59,62 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   // filterElementsref_2!: QueryList<NgModel>;
 
   private errorMessage: string = '';
+  incloudDetail: boolean = true;
+
   pageTitle: string = 'Product List !';
   imageWidth: number = 50;
   imageMargin: number = 2;
-  showImage: boolean = false;
+
+  get showImage(): boolean {
+    return this.productParameterService.showImage;
+  }
+  set showImage(value: boolean) {
+    this.productParameterService.showImage = value;
+  }
+
   filteredProducts: IProduct[] = [];
+
+  parentFilterValue!: string;
+
+  @ViewChild(CriteriaComponent)
+  filterElement!: CriteriaComponent;
+
   // filterName!: string;
   // listFilter: string = '';
 
   ////  getter and setter to bind data
-  private _listFilter!: string;
+  // private _listFilter!: string;
 
-  get listFilter(): string {
-    return this._listFilter;
+  // get listFilter(): string {
+  //   return this._listFilter;
+  // }
+
+  // set listFilter(value: string) {
+  //   this._listFilter = value;
+
+  //   this.filteredProducts = this.listFilter
+  //     ? this.PreformFilter(this.listFilter)
+  //     : this.products;
+  // }
+
+  filterOnChange(value: string): void {
+    this.productParameterService.filterBy = value;
+    this.PreformFilter(value);
   }
 
-  set listFilter(value: string) {
-    this._listFilter = value;
+  private PreformFilter(filterby: string): void {
+    if(filterby){
+      filterby = filterby?.toLowerCase();
 
-    this.filteredProducts = this.listFilter
-      ? this.PreformFilter(this.listFilter)
-      : this.products;
-  }
-
-  private PreformFilter(filterby: string): IProduct[] {
-    filterby = filterby.toLowerCase();
-
-    return this.products.filter(
-      (product: IProduct) =>
-        product.productName.toLowerCase().indexOf(filterby) !== -1
-    );
+      this.filteredProducts = this.products.filter(
+        (product: IProduct) =>
+          product.productName.toLowerCase().indexOf(filterby) !== -1
+      );
+    } else{
+      this.filteredProducts = this.products;
+    }
+  
+    console.log(this.filteredProducts);
   }
 
   products: IProduct[] = [];

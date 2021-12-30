@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConvertToSpacesPipe } from './convert-to-space.pipe';
 import { StarComponent } from './star.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CriteriaComponent } from './criteria/criteria.component';
 
  
  
@@ -10,17 +11,23 @@ import { FormsModule } from '@angular/forms';
   declarations: [
     ConvertToSpacesPipe,
     StarComponent,
-     
+    CriteriaComponent,
+ 
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+  
   ],
   exports:[
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     ConvertToSpacesPipe,
     StarComponent,
-    FormsModule,
 
+    CriteriaComponent,
     
   ]
 })

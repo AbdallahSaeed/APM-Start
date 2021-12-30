@@ -15,6 +15,7 @@ import { ProductEditGuard } from './product-edit.guard';
 // Imports for loading & configuring the in-memory web api
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { ProductData } from './ProductData';
+import { ProductParameterService } from './product-parameter.service';
  
 
 @NgModule({
@@ -24,10 +25,11 @@ import { ProductData } from './ProductData';
     ProductNotFoundComponent,
     AddProductComponent,
     ProductEditComponent,
+    
   ],
   imports: [
     
-    ReactiveFormsModule,
+    // ReactiveFormsModule,
     InMemoryWebApiModule.forRoot(ProductData),
     RouterModule.forChild([
       { path: 'products', component: ProductListComponent },
@@ -46,5 +48,9 @@ import { ProductData } from './ProductData';
     SharedModule,
   
   ],
+  providers:[
+    ProductParameterService
+    
+  ]
 })
 export class ProductModule {}
