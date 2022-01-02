@@ -31,7 +31,7 @@ export class CriteriaComponent implements OnInit, OnChanges, AfterViewInit {
 
   private _listFilter!: string;
 
- 
+   
   get listFilter(): string {
     return this._listFilter;
   }

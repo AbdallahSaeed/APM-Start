@@ -1,0 +1,28 @@
+<div *ngIf='products?.length'
+     class="card"
+     style="width: 18rem;">
+  <div class="card-header">
+    {{pageTitle}}
+    <button class="btn btn-outline-secondary"
+            style="float: right;"
+            [routerLink]="['/products', 0, 'edit']">
+      Add New
+    </button>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li *ngFor='let product of products'
+        class="list-group-item">
+      <button type='button'
+              class='list-group-item btn btn-primary  btn-lg btn-block'
+              [ngClass]="{'active':product?.id === selectedProduct?.id}"
+              (click)="onSelected(product)">
+        {{ product.productName }} ({{ product.productCode }})
+      </button>
+    </li>
+
+  </ul>
+</div>
+<div *ngIf='errorMessage'
+     class='alert alert-danger'>
+  Error: {{ errorMessage }}
+</div>

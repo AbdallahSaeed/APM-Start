@@ -16,6 +16,9 @@ import { ProductEditGuard } from './product-edit.guard';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { ProductData } from './ProductData';
 import { ProductParameterService } from './product-parameter.service';
+import { ProductShellDetailComponent } from './product-shell/product-shell-detail.component';
+import { ProductShellListComponent } from './product-shell/product-shell-list.component';
+import { ProductShellComponent } from './product-shell/product-shell.component';
  
 
 @NgModule({
@@ -25,14 +28,16 @@ import { ProductParameterService } from './product-parameter.service';
     ProductNotFoundComponent,
     AddProductComponent,
     ProductEditComponent,
-    
+    ProductShellDetailComponent,
+    ProductShellListComponent,
+    ProductShellComponent
   ],
   imports: [
     
     // ReactiveFormsModule,
     InMemoryWebApiModule.forRoot(ProductData),
     RouterModule.forChild([
-      { path: 'products', component: ProductListComponent },
+      { path: 'products', component: ProductShellComponent },
       {
         path: 'products/:id',
         component: ProductDetailComponent,
