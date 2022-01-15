@@ -29,9 +29,8 @@ export class CriteriaComponent implements OnInit, OnChanges, AfterViewInit {
   @Output()
   valueChange: EventEmitter<string> = new EventEmitter<string>();
 
-  private _listFilter!: string;
+  private _listFilter!: string | '';
 
-   
   get listFilter(): string {
     return this._listFilter;
   }

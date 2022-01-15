@@ -10,7 +10,6 @@ import { ProductEditComponent } from './product-edit.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 
-
 import { ProductEditGuard } from './product-edit.guard';
 // Imports for loading & configuring the in-memory web api
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
@@ -19,7 +18,7 @@ import { ProductParameterService } from './product-parameter.service';
 import { ProductShellDetailComponent } from './product-shell/product-shell-detail.component';
 import { ProductShellListComponent } from './product-shell/product-shell-list.component';
 import { ProductShellComponent } from './product-shell/product-shell.component';
- 
+import { ProductResolverService } from './product-resolver.service';
 
 @NgModule({
   declarations: [
@@ -30,32 +29,31 @@ import { ProductShellComponent } from './product-shell/product-shell.component';
     ProductEditComponent,
     ProductShellDetailComponent,
     ProductShellListComponent,
-    ProductShellComponent
+    ProductShellComponent,
   ],
   imports: [
-    
     // ReactiveFormsModule,
     InMemoryWebApiModule.forRoot(ProductData),
     RouterModule.forChild([
-      { path: 'products', component: ProductShellComponent },
+      { path: 'products', component: ProductListComponent },
       {
         path: 'products/:id',
         component: ProductDetailComponent,
         canActivate: [ProductDetailGuard],
+        // for resolve Route
+        resolve: { resolveData: ProductResolverService },
       },
       {
         path: 'products/:id/edit',
         component: ProductEditComponent,
-        canDeactivate: [ProductEditGuard]
+        canDeactivate: [ProductEditGuard],
+         // for resolve Route
+         resolve: { resolveData: ProductResolverService },
       },
       { path: 'ProductNotFound', component: ProductNotFoundComponent },
     ]),
     SharedModule,
-  
   ],
-  providers:[
-    ProductParameterService
-    
-  ]
+  providers: [ProductParameterService],
 })
 export class ProductModule {}

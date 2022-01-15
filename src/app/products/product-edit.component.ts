@@ -18,7 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { ProductHttpSercice } from './product-http-sercice';
 import { fromEvent, merge, Observable, Subscription } from 'rxjs';
-import { IProduct } from './Product';
+import { IProduct, IProductResolved } from './Product';
 import { NumberValidators } from '../shared/numbers-validators';
 import { GenericValidator } from '../shared/generic-validator';
 import { debounceTime } from 'rxjs/operators';
@@ -95,7 +95,8 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    ////--- when read from
+    //this.sub.unsubscribe();
   }
 
   //---- Form Groups
@@ -114,12 +115,19 @@ export class ProductEditComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.productForm = this.fb.group(this.productEditControllers);
 
-    // Read the product Id from the route parameter
-    this.sub = this.route.paramMap.subscribe((params) => {
-      let id = params.get('id');
-      if (id) {
-        this.getProduct(+id);
-      }
+    //// Read the product Id from the route parameter
+    // this.sub = this.route.paramMap.subscribe((params) => {
+    //   let id = params.get('id');
+    //   if (id) {
+    //     this.getProduct(+id);
+    //   }
+    // });
+
+    ////--- Read From Resolver Route
+    this.route.data.subscribe((data) => {
+      const resolvedData: IProductResolved = data['resolveData'];
+      this.errorMessage = resolvedData.errors;
+      if (resolvedData.product) this.displayProduct(resolvedData.product);
     });
   }
 

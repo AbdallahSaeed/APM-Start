@@ -4,29 +4,30 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { WelcomeComponent } from './home/welcome.component';
-import { RouterModule } from '@angular/router';
+import { AppRoutingModule } from './app-routing.module';
 import { ProductModule } from './products/product.module';
 
 import { UserSettingFormModule } from './user-setting-form/user-setting-form.module';
 import { CustomersModule } from './customers/customers.module';
-
+import { MessageModule } from './messages/message.module';
+import { UserModule } from './user/user.module';
+import { PageNotFoundComponent } from './page-not-found.component';
+import { LoginComponent } from './user/login.component';
+import { CoreService } from './@Core/core-Service';
 
 
 @NgModule({
-  declarations: [AppComponent, WelcomeComponent],
+  declarations: [AppComponent ,  WelcomeComponent, PageNotFoundComponent ],
   imports: [
     BrowserModule,
     HttpClientModule,
-   
-    RouterModule.forRoot([
-      { path: 'welcome', component: WelcomeComponent },
-      { path: '', redirectTo: 'welcome', pathMatch: 'full' },
-      //--- ** == 404
-      // { path: "**" , redirectTo:"welcome", pathMatch: "full" },
-    ]),
+  
+    MessageModule,
+    UserModule,
     ProductModule,
     UserSettingFormModule,
-    CustomersModule
+    CustomersModule,
+    AppRoutingModule 
   ],
   bootstrap: [AppComponent],
 })

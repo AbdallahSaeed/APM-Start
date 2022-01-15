@@ -9,9 +9,9 @@
                      [hitCount]="filteredProducts?.length"
                      (valueChange)="filterOnChange($event)"
                      >
-            <!-- {{filterCriteria.listFilter}} -->
+          
         </pm-criteria>
-
+  <!-- {{filterCriteria.listFilter}} -->
         <div class='row'>
 
             <table class='table table-responsive'
@@ -50,7 +50,8 @@
                         </td>
 
                         <td>
-                            <a [routerLink]="['/products', product.productId]">
+                            <a [routerLink]="['/products', product.productId]"
+                               [queryParams]="{filterBy:parentFilterValue, showImage: showImage }">
                                 {{ product.productName }}
                             </a>
                         </td>

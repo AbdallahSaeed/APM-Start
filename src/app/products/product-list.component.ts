@@ -23,6 +23,10 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     private productService: ProductHttpSercice,
     private productParameterService: ProductParameterService
   ) {}
+
+  @ViewChild(CriteriaComponent)
+  filterElement!: CriteriaComponent;
+
   ngAfterViewInit(): void {
     ///// Value Change observable
     // this.filterElement.valueChanges?.subscribe(() =>
@@ -32,7 +36,8 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     // console.log(this.filterElementsref_1);
     // console.log(this.filterElementsref_2);
 
-    this.parentFilterValue = this.filterElement.listFilter;
+    this.parentFilterValue = this.productParameterService.filterBy;
+    this.filterElement.listFilter = this.productParameterService.filterBy;
   }
 
   //--- lifecycle hooks
@@ -40,7 +45,9 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     this.productService.getProducts().subscribe({
       next: (products) => {
         this.products = products;
-        this.filterElement.listFilter = this.productParameterService.filterBy;
+        this.PreformFilter(this.productParameterService?.filterBy);
+        //this.filterElement.listFilter = this.productParameterService.filterBy;
+
         //this.filteredProducts = this.products;
         //// if you want defult value for filters
         // this.listFilter = 'cart';
@@ -74,10 +81,13 @@ export class ProductListComponent implements OnInit, AfterViewInit {
 
   filteredProducts: IProduct[] = [];
 
-  parentFilterValue!: string;
-
-  @ViewChild(CriteriaComponent)
-  filterElement!: CriteriaComponent;
+  private _parentFilterValue!: string;
+  get parentFilterValue() {
+    return this._parentFilterValue;
+  }
+  set parentFilterValue(value) {
+    this._parentFilterValue = value;
+  }
 
   // filterName!: string;
   // listFilter: string = '';
@@ -99,21 +109,22 @@ export class ProductListComponent implements OnInit, AfterViewInit {
 
   filterOnChange(value: string): void {
     this.productParameterService.filterBy = value;
+    this.parentFilterValue = value;
     this.PreformFilter(value);
   }
 
   private PreformFilter(filterby: string): void {
-    if(filterby){
+    if (filterby) {
       filterby = filterby?.toLowerCase();
 
       this.filteredProducts = this.products.filter(
         (product: IProduct) =>
           product.productName.toLowerCase().indexOf(filterby) !== -1
       );
-    } else{
+    } else {
       this.filteredProducts = this.products;
     }
-  
+
     console.log(this.filteredProducts);
   }
 
