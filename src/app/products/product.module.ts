@@ -19,6 +19,11 @@ import { ProductShellDetailComponent } from './product-shell/product-shell-detai
 import { ProductShellListComponent } from './product-shell/product-shell-list.component';
 import { ProductShellComponent } from './product-shell/product-shell.component';
 import { ProductResolverService } from './product-resolver.service';
+import { ProductEditInfoComponent } from './product-edit-info.component';
+import { ProductEditTagsComponent } from './product-edit-tags.component';
+import { ProductEditWizardComponent } from './product-edit-wizard.component';
+import { AuthGuard } from '../user/auth.guard';
+import { ProductEditWizardGuard } from './product-edit-wizard.guard';
 
 @NgModule({
   declarations: [
@@ -30,25 +35,38 @@ import { ProductResolverService } from './product-resolver.service';
     ProductShellDetailComponent,
     ProductShellListComponent,
     ProductShellComponent,
+    ProductEditInfoComponent,
+    ProductEditTagsComponent,
+    ProductEditWizardComponent,
   ],
   imports: [
     // ReactiveFormsModule,
-    InMemoryWebApiModule.forRoot(ProductData),
     RouterModule.forChild([
-      { path: 'products', component: ProductListComponent },
       {
-        path: 'products/:id',
+        path: '',
+        component: ProductListComponent,
+      },
+      {
+        path: ':id',
         component: ProductDetailComponent,
-        canActivate: [ProductDetailGuard],
+        // canActivate: [ProductDetailGuard],
         // for resolve Route
         resolve: { resolveData: ProductResolverService },
       },
       {
-        path: 'products/:id/edit',
-        component: ProductEditComponent,
-        canDeactivate: [ProductEditGuard],
-         // for resolve Route
-         resolve: { resolveData: ProductResolverService },
+        path: ':id/edit',
+        //--- old edit component
+        // component: ProductEditComponent, canDeactivate: [ProductEditGuard],
+        component: ProductEditWizardComponent,
+        canDeactivate:[ProductEditWizardGuard],
+        // for resolve Route
+        resolve: { resolveData: ProductResolverService },
+
+        children: [
+          { path: '', redirectTo: 'info', pathMatch: 'full' },
+          { path: 'info', component: ProductEditInfoComponent },
+          { path: 'tags', component: ProductEditTagsComponent },
+        ],
       },
       { path: 'ProductNotFound', component: ProductNotFoundComponent },
     ]),

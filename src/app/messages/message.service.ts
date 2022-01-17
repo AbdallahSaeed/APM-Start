@@ -10,6 +10,8 @@ export class MessageService {
     return this._messages;
   }
 
+  isDisplayed:boolean = false;
+
   addMessage(message: string): void {
     const currentDate = new Date();
     this.messages.unshift(message + ' at ' + currentDate.toLocaleString());

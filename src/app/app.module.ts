@@ -5,15 +5,18 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { WelcomeComponent } from './home/welcome.component';
 import { AppRoutingModule } from './app-routing.module';
-import { ProductModule } from './products/product.module';
+
 
 import { UserSettingFormModule } from './user-setting-form/user-setting-form.module';
 import { CustomersModule } from './customers/customers.module';
 import { MessageModule } from './messages/message.module';
 import { UserModule } from './user/user.module';
 import { PageNotFoundComponent } from './page-not-found.component';
-import { LoginComponent } from './user/login.component';
-import { CoreService } from './@Core/core-Service';
+ 
+//---- for Animations  
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { ProductData } from './products/ProductData';
 
 
 @NgModule({
@@ -21,10 +24,10 @@ import { CoreService } from './@Core/core-Service';
   imports: [
     BrowserModule,
     HttpClientModule,
-  
+    InMemoryWebApiModule.forRoot(ProductData,{ delay: 1000 }), // , { delay: 1000 }
+    BrowserAnimationsModule,
     MessageModule,
     UserModule,
-    ProductModule,
     UserSettingFormModule,
     CustomersModule,
     AppRoutingModule 
